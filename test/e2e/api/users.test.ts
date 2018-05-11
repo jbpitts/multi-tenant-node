@@ -3,6 +3,7 @@ import * as request from 'supertest';
 
 import { User } from '../../../src/api/models/User';
 import { CreateBruce } from '../../../src/database/seeds/CreateBruce';
+import { CreateaClient } from '../../../src/database/seeds/CreateaClient';
 import { runSeed } from '../../../src/lib/seed';
 import { closeDatabase } from '../../utils/database';
 import { fakeAuthenticationForUser } from '../utils/auth';
@@ -20,6 +21,7 @@ describe('/api/users', () => {
 
     beforeAll(async () => {
         settings = await prepareServer({ migrate: true });
+        await runSeed<Client>(CreateaClient);
         bruce = await runSeed<User>(CreateBruce);
         fakeAuthenticationForUser(bruce, true);
     });
@@ -40,18 +42,18 @@ describe('/api/users', () => {
     test('GET: / should return a list of users', async (done) => {
         const response = await request(settings.app)
             .get('/api/users')
-            .set('Authorization', `Bearer 1234`)
+            .set('Authorization', `Bearer 1`)
             .expect('Content-Type', /json/)
             .expect(200);
 
-        expect(response.body.length).toBe(1);
+        expect(response.body.length).toBe(2); // bruce and system
         done();
     });
 
     test('GET: /:id should return bruce', async (done) => {
         const response = await request(settings.app)
             .get(`/api/users/${bruce.id}`)
-            .set('Authorization', `Bearer 1234`)
+            .set('Authorization', `Bearer 1`)
             .expect('Content-Type', /json/)
             .expect(200);
 
