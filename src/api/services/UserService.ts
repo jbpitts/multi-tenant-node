@@ -7,6 +7,8 @@ import { Logger, LoggerInterface } from '../../decorators/Logger';
 import { User } from '../models/User';
 import { UserRepository } from '../repositories/UserRepository';
 import { events } from '../subscribers/events';
+import { constants } from '../common/constants';
+import { NotAuthorized } from '../errors/NotAuthorized';
 
 @Service()
 export class UserService {
@@ -25,6 +27,9 @@ export class UserService {
         if (!options.where) {
             options.where = {};
         }
+        if (!currentUser || currentUser.clientId === undefined) {
+            throw new NotAuthorized();
+        }
         options.where['clientId'] = currentUser.clientId;
         if (!options.relations) {
             options.relations = [];
@@ -41,7 +46,12 @@ export class UserService {
     }
 
     public async create(currentUser: User, user: User): Promise<User> {
-        user.clientId = currentUser.clientId;
+        if (currentUser.id !== constants.system.userId || user.clientId === undefined) {
+            user.clientId = currentUser.clientId;
+        }
+
+        user.createdById = currentUser.id;
+        user.updatedById = currentUser.id;
         this.log.info('Create a new user => ', user.toString());
         const newUser = await this.userRepository.save(user);
         this.eventDispatcher.dispatch(events.user.created, newUser);
@@ -57,6 +67,7 @@ export class UserService {
         this.log.info('Update a user');
         user.id = id;
         user.clientId = currentUser.clientId;
+        user.updatedById = currentUser.id;
         return this.userRepository.save(user);
     }
 
