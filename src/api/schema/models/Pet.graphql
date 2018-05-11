@@ -1,0 +1,16 @@
+type Pet implements TenantScopedModel {
+    id: ID,
+    name: String,
+    age: Int,
+    userId: Int,
+    user: User,
+    key: Int,
+    clientId: Int,
+    createdById: Int,
+    createdBy: User,
+    updatedById: Int,
+    updatedBy: User,
+    createdAt: Date,
+    updatedAt: Date,
+    epoch: Int
+}

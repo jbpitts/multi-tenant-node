@@ -1,0 +1,28 @@
+interface TenantScopedModel {
+    key: Int,
+    clientId: Int,
+    createdById: Int,
+    createdBy: User,
+    updatedById: Int,
+    updatedBy: User,
+    createdAt: Date,
+    updatedAt: Date,
+    epoch: Int
+}
+
+type Query {
+    pets(limit: Int, offset: Int, order: String): [Pet],
+    pet(id: ID): Pet,
+    users(limit: Int, offset: Int, order: String): [User],
+    user(id: ID): User
+}
+
+type Mutation {
+    userCreate(firstName: String, lastName: String, email: String): User
+    userDelete(id: ID): Boolean
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}
