@@ -1,0 +1,19 @@
+
+type User implements TenantScopedModel {
+    id: ID,
+    firstName: String,
+    lastName: String,
+    email: String,
+    pets: [Pet],
+    key: Int,
+    clientId: Int,
+    createdById: Int,
+    createdBy: User,
+    updatedById: Int,
+    updatedBy: User,
+    createdAt: Date,
+    updatedAt: Date,
+    # Row Version
+    epoch: Int
+}
+
