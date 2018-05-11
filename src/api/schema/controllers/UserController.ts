@@ -44,7 +44,7 @@ export class UserController {
             findOptions.order = {email: 'ASC'};
         }
 
-        //todo: don't think this check is needed, @Authorized solves this issue
+        // todo: don't think this check is needed, @Authorized solves this issue
         if (!this.currentUser) {
             throw new NotAuthorized();
         }
