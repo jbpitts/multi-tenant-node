@@ -98,6 +98,7 @@ export class CreateUserTable1511105183653 implements MigrationInterface {
             $$`);
         await queryRunner.query(`CREATE TRIGGER user_key BEFORE INSERT ON "user"
                             FOR EACH ROW EXECUTE PROCEDURE user_fnkey()`);
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {

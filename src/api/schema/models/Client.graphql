@@ -1,0 +1,21 @@
+
+
+type Client {
+    id: ID,
+    name: String,
+    spaceUsed: Int,
+    spaceLimit: Int,
+    companyEmail: String,
+    databaseName: String,
+    companyPhone: String,
+    companyName: String,
+    companyUrl: String,
+    createdById: Int,
+    createdBy: User,
+    updatedById: Int,
+    updatedBy: User,
+    createdAt: Date,
+    updatedAt: Date,
+    # Row Version
+    epoch: Int
+}

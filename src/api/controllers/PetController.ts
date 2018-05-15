@@ -1,9 +1,10 @@
 import {
-    Authorized, Body, Delete, Get, JsonController, OnUndefined, Param, Post, Put
+    Authorized, Body, Delete, Get, JsonController, OnUndefined, Param, Post, Put, CurrentUser
 } from 'routing-controllers';
 
 import { PetNotFoundError } from '../errors/PetNotFoundError';
 import { Pet } from '../models/Pet';
+import { User } from '../models/User';
 import { PetService } from '../services/PetService';
 
 @Authorized()
@@ -15,29 +16,29 @@ export class PetController {
     ) { }
 
     @Get()
-    public find(): Promise<Pet[]> {
-        return this.petService.find();
+    public find(@CurrentUser({required: true}) currentUser: User): Promise<Pet[]> {
+        return this.petService.find(currentUser);
     }
 
     @Get('/:id')
     @OnUndefined(PetNotFoundError)
-    public one( @Param('id') id: number): Promise<Pet | undefined> {
-        return this.petService.findOne(id);
+    public one(@CurrentUser({required: true}) currentUser: User, @Param('id') id: number): Promise<Pet | undefined> {
+        return this.petService.findOne(currentUser, id);
     }
 
     @Post()
-    public create( @Body() pet: Pet): Promise<Pet> {
-        return this.petService.create(pet);
+    public create(@CurrentUser({required: true}) currentUser: User, @Body() pet: Pet): Promise<Pet> {
+        return this.petService.create(currentUser, pet);
     }
 
     @Put('/:id')
-    public update( @Param('id') id: number, @Body() pet: Pet): Promise<Pet> {
-        return this.petService.update(id, pet);
+    public update(@CurrentUser({required: true}) currentUser: User, @Param('id') id: number, @Body() pet: Pet): Promise<Pet> {
+        return this.petService.update(currentUser, id, pet);
     }
 
     @Delete('/:id')
-    public delete( @Param('id') id: number): Promise<any> {
-        return this.petService.delete(id);
+    public delete(@CurrentUser({required: true}) currentUser: User, @Param('id') id: number): Promise<any> {
+        return this.petService.delete(currentUser, id);
     }
 
 }

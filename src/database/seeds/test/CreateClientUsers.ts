@@ -1,9 +1,9 @@
 import { Connection } from 'typeorm/connection/Connection';
 
-import { User } from '../../../src/api/models/User';
-import { Client } from '../../../src/api/models/Client';
+import { User } from '../../../../src/api/models/User';
+import { Client } from '../../../../src/api/models/Client';
 
-import { Factory, Seed } from '../../lib/seed/types';
+import { Factory, Seed } from '../../../lib/seed/types';
 import { SeedConstants } from '../SeedConstants';
 
 export class CreateClientUsers implements Seed {

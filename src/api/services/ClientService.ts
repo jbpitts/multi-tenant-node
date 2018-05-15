@@ -35,7 +35,7 @@ export class ClientService {
 
         // SYSTEM can view anything
         if (currentUser.id !== constants.system.userId) {
-            options.where['clientId'] = currentUser.clientId;
+            options.where['id'] = currentUser.clientId;
         }
 
         if (!options.relations) {
@@ -53,8 +53,14 @@ export class ClientService {
 
     public async create(currentUser: User, client: Client): Promise<Client> {
         // do not need to set clientId, user.clientId = currentUser.clientId;
-        client.createdById = currentUser.id;
-        client.updatedById = currentUser.id;
+        if (currentUser) {
+            client.createdById = currentUser.id;
+            client.updatedById = currentUser.id;
+        } else {
+            client.createdById = constants.system.userId;
+            client.updatedById = constants.system.userId;
+        }
+
         this.log.info('Create a new client => ', client.toString());
         const newClient = await this.clientRepository.save(client);
         this.eventDispatcher.dispatch(events.client.created, newClient);
@@ -68,8 +74,13 @@ export class ClientService {
 
     public update(currentUser: User, id: number, client: Client): Promise<Client> {
         this.log.info('Update a Client');
-        client.id = id;
-        client.clientId = currentUser.clientId;
+
+        // todo need something other then user, should be part of a group
+        if (currentUser.id === constants.system.userId) {
+            client.id = id;
+        } else {
+            client.id = currentUser.clientId;
+        }
         client.updatedById = currentUser.id;
         return this.clientRepository.save(client);
     }

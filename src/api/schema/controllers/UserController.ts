@@ -66,7 +66,7 @@ export class UserController {
     // serves "userSave" requests
     @Mutation()
     @Authorized()
-    public userSave(args: DeepPartial<User>): Promise<User> {
+    public userCreate(args: DeepPartial<User>): Promise<User> {
         if (!this.currentUser) {
             throw new NotAuthorized();
         }

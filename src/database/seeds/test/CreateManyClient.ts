@@ -1,9 +1,9 @@
 
 import { Connection } from 'typeorm/connection/Connection';
 
-import { Client } from '../../../src/api/models/Client';
+import { Client } from '../../../../src/api/models/Client';
 
-import { Factory, Seed } from '../../lib/seed/types';
+import { Factory, Seed } from '../../../lib/seed/types';
 
 export class CreateManyClient implements Seed {
 

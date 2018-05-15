@@ -1,8 +1,8 @@
 import { Connection } from 'typeorm';
 
-import { User } from '../../../src/api/models/User';
-import { Client } from '../../../src/api/models/Client';
-import { Factory, Seed } from '../../lib/seed/types';
+import { User } from '../../../../src/api/models/User';
+import { Client } from '../../../../src/api/models/Client';
+import { Factory, Seed } from '../../../lib/seed/types';
 import { SeedConstants } from '../SeedConstants';
 
 export class CreateBruce implements Seed {
@@ -33,24 +33,15 @@ export class CreateBruce implements Seed {
         const em = connection.createEntityManager();
 
         const user = new User();
-        user.firstName = 'system';
-        user.lastName = 'system';
-        user.email = 'system@ls.com';
+        user.createdById = 1;
+        user.updatedById = 1;
+        user.firstName = 'Bruce';
+        user.lastName = 'Wayne';
+        user.email = 'bruce.wayne@wayne-enterprises.com';
         user.createdById = 1;
         user.updatedById = 1;
         user.clientId = client.id;
-        await em.save(user);
-
-        const user2 = new User();
-        user2.createdById = 1;
-        user2.updatedById = 1;
-        user2.firstName = 'Bruce';
-        user2.lastName = 'Wayne';
-        user2.email = 'bruce.wayne@wayne-enterprises.com';
-        user2.createdById = 1;
-        user2.updatedById = 1;
-        user2.clientId = client.id;
-        return await em.save(user2);
+        return await em.save(user);
     }
 
 }

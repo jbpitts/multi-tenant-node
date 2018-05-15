@@ -19,6 +19,7 @@
         "baseUrl": ".",
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "lib": ["es6", "dom", "esnext"]
     }
 }

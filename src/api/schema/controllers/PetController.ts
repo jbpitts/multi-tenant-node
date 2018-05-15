@@ -1,8 +1,9 @@
-import { Controller, Query } from 'vesper';
+import { Controller, Query, Authorized } from 'vesper';
 import { FindManyOptions } from 'typeorm';
 
 import { PetService } from '../../services/PetService';
 import { Pet } from '../../models/Pet';
+import { User } from '../../models/User';
 
 export interface PetArgs {
     limit?: number;
@@ -13,12 +14,13 @@ export interface PetArgs {
 @Controller()
 export class PetController {
 
-    constructor(private petService: PetService) {
+    constructor(private currentUser: User,
+                private petService: PetService) {
         // @Logger(__filename) private log: LoggerInterface) {
     }
 
-    // serves "pets" requests
     @Query()
+    @Authorized()
     public pets(args: PetArgs): Promise<Pet[]> {
         const findOptions: FindManyOptions = {};
         if (args.limit) {
@@ -37,12 +39,12 @@ export class PetController {
             findOptions.order = {age: 'ASC'};
         }
 
-        return this.petService.find(findOptions);
+        return this.petService.find(this.currentUser, findOptions);
     }
 
-    // serves "pet" requests
     @Query()
+    @Authorized()
     public pet(arg: { id: number }): Promise<Pet> {
-        return this.petService.findOne(arg.id);
+        return this.petService.findOne(this.currentUser, arg.id);
     }
 }

@@ -26,7 +26,7 @@ const factoryPath = (commander.factories)
 // Get cli parameter for a different seeds path
 const seedsPath = (commander.seeds)
     ? commander.seeds
-    : 'src/database/seeds/';
+    : 'src/database/seeds/test/';
 
 // Get a list of seeds
 const listOfSeeds = (commander.run)

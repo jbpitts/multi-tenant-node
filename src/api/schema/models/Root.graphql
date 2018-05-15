@@ -15,11 +15,16 @@ type Query {
     pet(id: ID): Pet,
     users(limit: Int, offset: Int, order: String): [User],
     user(id: ID): User
+    clients(limit: Int, offset: Int, order: String): [Client],
+    client(id: ID): User
 }
 
 type Mutation {
     userCreate(firstName: String, lastName: String, email: String): User
     userDelete(id: ID): Boolean
+
+    clientCreate(name: String): Client
+    clientDelete(id: ID): Boolean
 }
 
 schema {

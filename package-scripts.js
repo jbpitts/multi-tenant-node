@@ -97,7 +97,8 @@ module.exports = {
             default: {
                 script: series(
                     `nps copy.swagger`,
-                    `nps copy.public`
+                    `nps copy.public`,
+                    `nps copy.graphql`
                 ),
                 hiddenFromHelp: true
             },
@@ -112,6 +113,13 @@ module.exports = {
                 script: copy(
                     './src/public/*',
                     './dist'
+                ),
+                hiddenFromHelp: true
+            },
+            graphql: {
+                script: copy(
+                    './src/api/schema/models/*',
+                    './dist/api/schema/models'
                 ),
                 hiddenFromHelp: true
             }

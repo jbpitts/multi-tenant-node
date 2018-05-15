@@ -1,7 +1,7 @@
 import { Connection } from 'typeorm/connection/Connection';
 
-import { Client } from '../../../src/api/models/Client';
-import { Factory, Seed } from '../../lib/seed/types';
+import { Client } from '../../../../src/api/models/Client';
+import { Factory, Seed } from '../../../lib/seed/types';
 import { SeedConstants } from '../SeedConstants';
 
 export class CreateaClient implements Seed {
@@ -17,6 +17,7 @@ export class CreateaClient implements Seed {
             client.createdById = 1;
             client.updatedById = 1;
             client.spaceLimit = 20000;
+            client.id = 0;
 
             const em = connection.createEntityManager();
             return await em.save(client);

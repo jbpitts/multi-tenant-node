@@ -1,10 +1,10 @@
 import { Connection } from 'typeorm';
 
-import { User } from '../../../src/api/models/User';
-import { Client } from '../../../src/api/models/Client';
-import { Pet } from '../../../src/api/models/Pet';
+import { User } from '../../../../src/api/models/User';
+import { Client } from '../../../../src/api/models/Client';
+import { Pet } from '../../../../src/api/models/Pet';
 
-import { Factory, Seed, times } from '../../lib/seed';
+import { Factory, Seed, times } from '../../../lib/seed';
 import { SeedConstants } from '../SeedConstants';
 
 export class CreatePets implements Seed {
