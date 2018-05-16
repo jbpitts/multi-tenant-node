@@ -2,6 +2,7 @@ import * as nock from 'nock';
 import * as request from 'supertest';
 
 import { User } from '../../../src/api/models/User';
+import { Client } from '../../../src/api/models/Client';
 import { CreateBruce } from '../../../src/database/seeds/test/CreateBruce';
 import { CreateaClient } from '../../../src/database/seeds/test/CreateaClient';
 import { runSeed } from '../../../src/lib/seed';

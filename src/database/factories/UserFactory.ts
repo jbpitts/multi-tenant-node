@@ -13,8 +13,8 @@ define(User, (faker: typeof Faker, settings: { clientId: number }) => {
     user.firstName = firstName;
     user.lastName = lastName;
     user.email = email;
-    user.createdById = 1;
-    user.updatedById = 1;
+    user.createdById = Math.floor(Math.random() * Math.floor(9)) + 1;
+    user.updatedById = Math.floor(Math.random() * Math.floor(9)) + 1;
     user.clientId = settings.clientId;
     return user;
 });

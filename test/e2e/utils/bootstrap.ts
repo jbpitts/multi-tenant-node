@@ -9,6 +9,7 @@ import { homeLoader } from '../../../src/loaders/homeLoader';
 import { iocLoader } from '../../../src/loaders/iocLoader';
 import { winstonLoader } from '../../../src/loaders/winstonLoader';
 import { typeormLoader } from '../utils/typeormLoader';
+import { graphqlLoader } from '../../../src/loaders/graphqlLoader';
 
 export interface BootstrapSettings {
     app: Application;
@@ -25,6 +26,7 @@ export const bootstrapApp = async (): Promise<BootstrapSettings> => {
             typeormLoader,
             expressLoader,
             homeLoader,
+            graphqlLoader,
         ],
     });
     return {

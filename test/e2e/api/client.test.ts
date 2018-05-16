@@ -7,7 +7,9 @@ import { closeDatabase } from '../../utils/database';
 import { BootstrapSettings } from '../utils/bootstrap';
 import { prepareServer } from '../utils/server';
 
-describe('/api/users', () => {
+import { deleteClient, findClient } from '../utils/graphqlUtils';
+
+describe('/api/clients', () => {
 
     let bruce: User;
     let settings: BootstrapSettings;
@@ -39,8 +41,81 @@ describe('/api/users', () => {
             .expect('Content-Type', /json/)
             .expect(200);
 
-        expect(response.body.length).toBe(1); // root
+        expect(response.body).toContainEqual(
+            expect.objectContaining({ name: 'root', id: expect.anything() })
+        );
         done();
     });
+
+    test('GraphQL: should return list of clients', async (done) => {
+        const query = {
+            query: `
+                query {
+                  clients {
+                    id,
+                    name
+                  }
+                }
+            `,
+        };
+
+        const response = await request(settings.app)
+            .post('/graphql')
+            .set('Authorization', `Bearer 1`)
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .send(query);
+
+        expect(response.body.data.clients).toContainEqual(
+            expect.objectContaining({ name: 'root', id: expect.anything() })
+        );
+        done();
+    });
+
+    test('GraphQL: query none existing client', async (done) => {
+        const client = await findClient('does not exist', settings);
+        expect(client).toBeUndefined();
+        done();
+    });
+
+    test('GraphQL: should create a client', async (done) => {
+        const testClient = 'testclientname';
+        const client = await findClient(testClient, settings);
+        if (client) {
+            // shouldn't be found because rebuild database everytime
+            await deleteClient(client.id, settings);
+        }
+
+        const mutation = {
+            query: `
+                mutation {
+                  clientCreate(name: "${testClient}") {
+                    name
+                  } 
+                }
+            `,
+        };
+
+        const response = await request(settings.app)
+            .post('/graphql')
+            .set('Authorization', `Bearer 1`)
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .send(mutation);
+
+        expect(response.body.data.clientCreate).toEqual(
+            expect.objectContaining({ name: testClient })
+        );
+
+        const find = await findClient(testClient, settings);
+        expect(find).toEqual(expect.objectContaining({ name: testClient }));
+        done();
+    });
+
+
 
 });

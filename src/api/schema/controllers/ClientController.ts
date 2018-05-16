@@ -6,10 +6,15 @@ import { ClientService } from '../../services/ClientService';
 import { User } from '../../models/User';
 import { Client } from '../../models/Client';
 
-export interface ClientArgs {
+interface ClientsArgs {
     limit?: number;
     offset?: number;
     order?: string;
+}
+
+interface ClientArgs {
+    id?: number;
+    name?: string;
 }
 
 @Controller()
@@ -21,7 +26,7 @@ export class ClientController {
 
     @Query()
     @Authorized()
-    public clients(args: ClientArgs): Promise<Client[]> {
+    public clients(args: ClientsArgs): Promise<Client[]> {
         const findOptions: FindManyOptions = {};
         if (args.limit) {
             findOptions.take = args.limit;
@@ -41,8 +46,8 @@ export class ClientController {
 
     @Query()
     @Authorized()
-    public client(arg: { id: number }): Promise<Client> {
-        return this.clientService.findOne(this.currentUser, arg.id);
+    public client(arg: ClientArgs): Promise<Client> {
+        return this.clientService.findOne(this.currentUser, arg.id, arg.name);
     }
 
     @Mutation()

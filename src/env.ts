@@ -60,6 +60,7 @@ export const env = {
         enabled: toBool(getOsEnv('GRAPHQL_ENABLED')),
         route: getOsEnv('GRAPHQL_ROUTE'),
         editor: toBool(getOsEnv('GRAPHQL_EDITOR')),
+        playground: getOsEnv('GRAPHQL_PLAYGROUND'),
     },
     swagger: {
         enabled: toBool(getOsEnv('SWAGGER_ENABLED')),

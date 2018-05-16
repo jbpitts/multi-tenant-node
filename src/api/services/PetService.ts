@@ -32,11 +32,6 @@ export class PetService {
             throw new NotAuthorized();
         }
         options.where['clientId'] = currentUser.clientId;
-        if (!options.relations) {
-            options.relations = [];
-        }
-        options.relations.push('createdBy');
-        options.relations.push('updatedBy');
 
         return this.petRepository.find(options);
     }

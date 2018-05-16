@@ -42,13 +42,21 @@ export class ClientService {
             options.relations = [];
         }
         options.relations.push('createdBy');
+        // eager load nested options.relations.push('createdBy.createdBy');
         options.relations.push('updatedBy');
         return this.clientRepository.find(options);
     }
 
-    public findOne(currentUser: User, id: number): Promise<Client | undefined> {
+    public findOne(currentUser: User, id: number, name?: string): Promise<Client | undefined> {
         this.log.info('Find A client');
-        return this.clientRepository.findOne({ where: {clientId: currentUser.clientId, id}});
+        const findOptions: any = {where: {clientId: currentUser.clientId}};
+        if (id !== undefined) {
+            findOptions.where.id = id;
+        }
+        if (name) {
+            findOptions.where.name = name;
+        }
+        return this.clientRepository.findOne(findOptions);
     }
 
     public async create(currentUser: User, client: Client): Promise<Client> {

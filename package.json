@@ -1,6 +1,6 @@
 {
   "name": "multi-tenant-node",
-  "version": "3.0.1",
+  "version": "1.0.0",
   "description": "A multi tenant implementation in node on PostgreSQL",
   "main": "src/app.ts",
   "scripts": {

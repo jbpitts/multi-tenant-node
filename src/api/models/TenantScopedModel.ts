@@ -21,15 +21,15 @@ export class TenantScopedModel {
 
     @ManyToOne(type => User)
     @JoinColumn({ name: 'created_by' })
-    public createdBy: User;
+    public createdBy: Promise<User>;
 
     @IsNotEmpty()
     @Column({ name: 'updated_by'})
     public updatedById: number;
 
     @ManyToOne(type => User)
-    @JoinColumn({ name: 'updated_by' })
-    public updatedBy: User;
+    @JoinColumn([{name: 'client_id', referencedColumnName: 'clientId'}, { name: 'updated_by', referencedColumnName: 'key'}])
+    public updatedBy: Promise<User>;
 
     @CreateDateColumn({ name: 'created_at'})
     public createdAt: Date;

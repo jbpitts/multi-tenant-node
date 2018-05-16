@@ -35,8 +35,7 @@ export class UserService {
             options.relations = [];
         }
         options.relations.push('pets');
-        options.relations.push('createdBy');
-        options.relations.push('updatedBy');
+        // options.relations.push('updatedBy');
         return this.userRepository.find(options);
     }
 

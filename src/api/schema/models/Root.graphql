@@ -16,7 +16,7 @@ type Query {
     users(limit: Int, offset: Int, order: String): [User],
     user(id: ID): User
     clients(limit: Int, offset: Int, order: String): [Client],
-    client(id: ID): User
+    client(id: ID, name: String): Client
 }
 
 type Mutation {
