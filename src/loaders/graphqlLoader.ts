@@ -9,6 +9,8 @@ import { Client } from '../api/models/Client';
 import { UserController } from '../api/schema/controllers/UserController';
 import { PetController } from '../api/schema/controllers/PetController';
 import { ClientController } from '../api/schema/controllers/ClientController';
+import { ClientResolver } from '../api/schema/resolvers/ClientResolver';
+import { UserResolver } from '../api/schema/resolvers/UserResolver';
 import { env } from '../env';
 import { currentUserVesper } from '../auth/currentUserChecker';
 import { authorizationCheckerVesper } from '../auth/authorizationChecker';
@@ -31,6 +33,10 @@ export const graphqlLoader: MicroframeworkLoader = async (settings: Microframewo
                 User,
                 Pet,
                 Client,
+            ],
+            resolvers: [
+                ClientResolver,
+                UserResolver,
             ],
             schemas: [
                 __dirname + '/../api/schema/models/**/*.graphql',

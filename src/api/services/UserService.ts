@@ -44,6 +44,11 @@ export class UserService {
         return this.userRepository.findOne({ where: {clientId: currentUser.clientId, id}});
     }
 
+    public findByIds(currentUser: User, ids: any[]): Promise<User[] | undefined> {
+        this.log.info('Find user by ids');
+        return this.userRepository.findByIds( ids, { where: {clientId: currentUser.clientId}});
+    }
+
     public async create(currentUser: User, user: User): Promise<User> {
         if (currentUser.id !== constants.system.userId || user.clientId === undefined) {
             user.clientId = currentUser.clientId;

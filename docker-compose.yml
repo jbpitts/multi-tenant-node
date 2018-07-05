@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  # postgres
+  postgres:
+    image: "postgres:9.6.1"
+    container_name: "lansweeper-postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "lansweeper"
+      POSTGRES_PASSWORD: "l@nsweeper1"
+      POSTGRES_DB: "lansweeperdb"

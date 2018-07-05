@@ -38,12 +38,13 @@ export class ClientService {
             options.where['id'] = currentUser.clientId;
         }
 
-        if (!options.relations) {
-            options.relations = [];
-        }
-        options.relations.push('createdBy');
+        // removed because wanted to use DataLoader
+        // if (!options.relations) {
+        //    options.relations = [];
+        // }
+        // options.relations.push('createdBy');
         // eager load nested options.relations.push('createdBy.createdBy');
-        options.relations.push('updatedBy');
+        // options.relations.push('updatedBy');
         return this.clientRepository.find(options);
     }
 
