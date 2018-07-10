@@ -57,8 +57,6 @@ export function currentUserVesper(connection: Connection): (container: Container
 
             container.set(User, user);
 
-            action.context.dl = {};
-
             return user;
         } else {
             return undefined;

@@ -11,13 +11,13 @@ export class UserResolver {
 
     @Resolve()
     public updatedBy(entities: User, args: any, context: any): Promise<User> {
-        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser, context);
+        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser);
         return userLoader.load(entities.updatedById);
     }
 
     @Resolve()
     public createdBy(entities: User, args: any, context: any): Promise<User> {
-        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser, context);
+        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser);
         return userLoader.load(entities.createdById);
     }
 }

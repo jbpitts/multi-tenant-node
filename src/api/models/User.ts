@@ -25,6 +25,9 @@ export class User extends TenantScopedModel {
     @OneToMany(type => Pet, pet => pet.user)
     public pets: Pet[];
 
+    // dataloader
+    public dl: any;
+
     public toString(): string {
         return `${this.firstName} ${this.lastName} (${this.email})`;
     }

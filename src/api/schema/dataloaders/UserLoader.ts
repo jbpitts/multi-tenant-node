@@ -6,16 +6,16 @@ import { Container } from 'typedi';
 import DataLoader = require('dataloader');
 
 export class UserLoader extends DataLoader<number, User> {
-    public static getUserLoader(currentUser: User, context?: any): UserLoader {
+    public static getUserLoader(currentUser: User): UserLoader {
         let userLoader: UserLoader;
-        if (context && context.dl && context.dl.User) {
-            userLoader = context.dl.User;
+        if (currentUser && currentUser.dl && currentUser.dl.User) {
+            userLoader = currentUser.dl.User;
         } else {
             userLoader = new UserLoader(currentUser, Container.get(UserService));
-            if (!context.dl) {
-                context.dl = {};
+            if (!currentUser.dl) {
+                currentUser.dl = {};
             }
-            context.dl.User = userLoader;
+            currentUser.dl.User = userLoader;
         }
         return userLoader;
     }

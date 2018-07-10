@@ -12,13 +12,13 @@ export class ClientResolver {
 
     @Resolve()
     public updatedBy(entities: Client, args: any, context: any): Promise<User> {
-        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser, context);
+        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser);
         return userLoader.load(entities.updatedById);
     }
 
     @Resolve()
     public createdBy(entities: Client, args: any, context: any): Promise<User> {
-        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser, context);
+        const userLoader: UserLoader = UserLoader.getUserLoader(this.currentUser);
         return userLoader.load(entities.createdById);
     }
 }
