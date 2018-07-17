@@ -1,4 +1,5 @@
 
+import { FieldNode, GraphQLResolveInfo, SelectionNode, SelectionSetNode } from 'graphql';
 import { Controller, Query, Mutation, Authorized } from 'vesper';
 import { FindManyOptions, DeepPartial } from 'typeorm';
 
@@ -26,7 +27,7 @@ export class ClientController {
 
     @Query()
     @Authorized()
-    public clients(args: ClientsArgs): Promise<Client[]> {
+    public clients(args: ClientsArgs, context: any, info: GraphQLResolveInfo): Promise<Client[]> {
         const findOptions: FindManyOptions = {};
         if (args.limit) {
             findOptions.take = args.limit;
@@ -40,6 +41,12 @@ export class ClientController {
         if (args.order === 'name') {
             findOptions.order = {name: 'ASC'};
         }
+
+        // recurse ast tree find relationships
+        info.fieldNodes.forEach( (fieldNode: FieldNode) => {
+            const relations: string[] = this.traverseSelectionSet(fieldNode.selectionSet, '');
+            findOptions.relations = relations;
+        });
 
         return this.clientService.find(this.currentUser, findOptions);
     }
@@ -60,4 +67,29 @@ export class ClientController {
     public clientDelete(arg: { id: number }): Promise<boolean> {
         return this.clientService.remove(this.currentUser, arg.id);
     }
+
+    private traverseSelectionSet(selectionSet: SelectionSetNode, prefix: string): string[] {
+        let relations: string[];
+        if (selectionSet) {
+            selectionSet.selections.forEach( (selection: SelectionNode) => {
+                const field: FieldNode = selection as FieldNode;
+                if (field.selectionSet) {
+                    // if node has childern, let's assume it is a relationship
+                    if (!relations) {
+                        relations = [];
+                    }
+                    const relation: string = prefix + field.name.value;
+                    relations.push(relation);
+                    const sub = this.traverseSelectionSet(field.selectionSet, relation + '.');
+                    if (sub) {
+                        sub.forEach((rel: string) => {
+                            relations.push(rel);
+                        });
+                    }
+                }
+            });
+        }
+        return relations;
+    }
+
 }
